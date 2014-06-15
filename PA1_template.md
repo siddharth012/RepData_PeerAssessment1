@@ -5,13 +5,15 @@ Programming Assignment 1
 
 * Load the data
 
-```{r}
+
+```r
 data <- read.csv("activity.csv")
 ```
 
 * Transform class of 'date' column  from factor to Date
 
-```{r}
+
+```r
 data$date <- as.Date(data$date)
 ```
 
@@ -19,56 +21,66 @@ data$date <- as.Date(data$date)
 
 * Histogram of Total number of steps taken each day
 
-```{r}
+
+```r
 good <- complete.cases(data) #Ignore NA values
 data2 <- data[good, ] #Store clean data set in data2
 TotalSteps <- tapply(data2[,1], data2[,2], sum) #Total steps in each day
 barplot(TotalSteps) #Histogram plotted
 ```
 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+
 * Mean and Median total number of steps taken per day
 
-```{r}
+
+```r
 Mean <- mean(TotalSteps)
 Median <- median(TotalSteps)
 ```
 
-Mean is **`r Mean`** and Median is **`r Median`**
+Mean is **1.0766 &times; 10<sup>4</sup>** and Median is **10765**
 
 # What is the average daily activity pattern?
 
 * Time Series plot of 5-min Interval and Average number of steps taken
 
-```{r}
+
+```r
 AverageSteps <- tapply(data2[,1], data2[,3], mean) #Average steps in each interval across all days
 plot(as.numeric(names(AverageSteps)), AverageSteps, type="l", main = "Average steps per interval", 
      xlab="5-min Interval", ylab="Average number of Steps")
 ```
 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
+
 * Maximum number of Steps
 
-```{r}
+
+```r
 MaxSteps <- AverageSteps[AverageSteps == max(AverageSteps)]
 ```
 
-**`r names(MaxSteps)`** interval contains **`r MaxSteps`** number of steps which is maximum.
+**835** interval contains **206.1698** number of steps which is maximum.
 
 # Input missing values
 
 * Calculate and report the total number of missing values in the dataset
 
-```{r}
+
+```r
 good <- !complete.cases(data)
 MissValues <- sum(good)
 ```
 
-There are **`r MissValues`** rows with NA in this dataset.
+There are **2304** rows with NA in this dataset.
 
 * Devise a strategy for filling in all of the missing values in the dataset
 
 All the NA's in 'Steps' column of this dataset are replaced by the mean number of steps of their corresponding interval.
 
-```{r}
+
+```r
 for(i in 1:nrow(data)){
         if(is.na(data[i,1])){
                 data[i,1] = AverageSteps[names(AverageSteps) == data[i,3]]
@@ -80,28 +92,46 @@ for(i in 1:nrow(data)){
 
 First 6 rows are as shown:
 
-```{r}
+
+```r
 head(data)
+```
+
+```
+##     steps       date interval
+## 1 1.71698 2012-10-01        0
+## 2 0.33962 2012-10-01        5
+## 3 0.13208 2012-10-01       10
+## 4 0.15094 2012-10-01       15
+## 5 0.07547 2012-10-01       20
+## 6 2.09434 2012-10-01       25
 ```
 
 * Make a histogram and calculate mean and median of total number of steps taken each day
 
-```{r}
+
+```r
 NewTotalSteps <- tapply(data[,1], data[,2], sum) #Total steps in each day
 barplot(NewTotalSteps) #Histogram plotted
+```
+
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+
+```r
 NewMean <- mean(NewTotalSteps)
 NewMedian <- median(NewTotalSteps)
 ```
 
-Mean is **`r NewMean`** and Median is **`r NewMedian`**
+Mean is **1.0766 &times; 10<sup>4</sup>** and Median is **1.0766 &times; 10<sup>4</sup>**
 
-From the above analysis, we observe that mean **does not change at all**, whereas median has changed slightly from **`r Median`** to **`r NewMedian`**
+From the above analysis, we observe that mean **does not change at all**, whereas median has changed slightly from **10765** to **1.0766 &times; 10<sup>4</sup>**
 
 # Are there differences in activity patterns between weekdays and weekends?
 
 * Create a new factor variable with two levels: "weekday", and "weekend"
 
-```{r}
+
+```r
 #a <- vector()
 # for(i in 1:nrow(data)){
 #         if(weekdays(data[i,2]) == "Saturday" | weekdays(data[i,2]) == "Sunday"){
@@ -119,6 +149,4 @@ colnames(data)[4] = "day"
 
 * Time series plot of 5-minute interval and average number of steps taken on weekdays and weekends
 
-```{r}
 
-```
