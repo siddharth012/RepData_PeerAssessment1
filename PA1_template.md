@@ -142,16 +142,17 @@ colnames(data)[4] = "day"
 
 
 ```r
-s <- split(data, data$day) # Split on basis of type of day
-t <- tapply(s[[1]][,1], s[[1]][,3], mean) # Calculate weekday mean
-u <- tapply(s[[2]][,1], s[[2]][,3], mean) # Calculate weekend mean
-b <- data.frame(names(t), t, "weekday") # Create new data frame for weekday
-colnames(b)<-c("Interval", "AverageSteps", "Day")
-c <- data.frame(names(u), u, "weekend") # Create new data frame for weekend
-colnames(c)<-c("Interval", "AverageSteps", "Day")
-b <- rbind(b, c) # Join data frames
+MeanDayType = aggregate(data$steps, by = list(data$interval, data$day), FUN = mean)
+names(MeanDayType) = c("Interval", "DayType", "MeanSteps")
 library(lattice)
-xyplot(AverageSteps ~ Interval | Day, data = b, layout = c(1,2), type="l", ylab="Number of Steps") 
+```
+
+```
+## Warning: package 'lattice' was built under R version 3.0.3
+```
+
+```r
+xyplot(MeanSteps ~ Interval | DayType, data = MeanDayType, layout = c(1,2), type="l", ylab="Number of Steps")
 ```
 
 ![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
