@@ -1,4 +1,4 @@
-Programming Assignment 1 
+Personal Activity Monitoring Device's Data Analysis and Pattern Estimation 
 ========================================================
 
 ## Loading and Preprocessing the data:
